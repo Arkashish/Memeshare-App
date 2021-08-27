@@ -19,6 +19,7 @@ import com.bumptech.glide.request.target.Target
 
 class MainActivity : AppCompatActivity() {
     var currImageurl: String? = null
+    var url: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,12 +31,12 @@ class MainActivity : AppCompatActivity() {
         progress.visibility = View.VISIBLE
 //        val queue = Volley.newRequestQueue(this)
         currImageurl = "https://meme-api.herokuapp.com/gimme"
-
+//        val url=null
 // Request a string response from the provided URL.
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, currImageurl, null,
             { response ->
-                val url = response.getString("url")
+                url = response.getString("url")
 
                 val imageView = findViewById<ImageView>(R.id.imageView)
                 Glide.with(this).load(url).listener(object : RequestListener<Drawable>{
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     fun sharememe(view: View) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT,"Hey!!! Checkout this meme $currImageurl")
+        intent.putExtra(Intent.EXTRA_TEXT,"Hey!!! Checkout this meme $url") //currImageurl
         val chooser = Intent.createChooser(intent,"Share this using...")
         startActivity(chooser)
     }
